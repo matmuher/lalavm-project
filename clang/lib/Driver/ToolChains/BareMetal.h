@@ -36,6 +36,7 @@ protected:
   Tool *buildStaticLibTool() const override;
 
 public:
+  bool isUsingLD() const { return UseLD || GCCInstallation.isValid(); }
   bool isBareMetal() const override { return true; }
   bool isCrossCompiling() const override { return true; }
   bool HasNativeLLVMSupport() const override { return true; }
@@ -48,6 +49,7 @@ public:
 
   StringRef getOSLibName() const override { return "baremetal"; }
 
+<<<<<<< HEAD
   RuntimeLibType GetDefaultRuntimeLibType() const override {
     return ToolChain::RLT_CompilerRT;
   }
@@ -56,6 +58,20 @@ public:
   }
 
   const char *getDefaultLinker() const override { return "ld.lld"; }
+=======
+  UnwindTableLevel
+  getDefaultUnwindTableLevel(const llvm::opt::ArgList &Args) const override {
+    return UnwindTableLevel::None;
+  }
+
+  CXXStdlibType GetDefaultCXXStdlibType() const override;
+
+  RuntimeLibType GetDefaultRuntimeLibType() const override;
+
+  UnwindLibType GetUnwindLibType(const llvm::opt::ArgList &Args) const override;
+
+  const char *getDefaultLinker() const override;
+>>>>>>> 84310b65a4e1 ([RISCV] Change linker job in Baremetal toolchain object to accomodate valid)
 
   void
   AddClangSystemIncludeArgs(const llvm::opt::ArgList &DriverArgs,
@@ -80,7 +96,7 @@ private:
   using OrderedMultilibs =
       llvm::iterator_range<llvm::SmallVector<Multilib>::const_reverse_iterator>;
   OrderedMultilibs getOrderedMultilibs() const;
-
+  bool UseLD;
   std::string SysRoot;
   SmallVector<std::string> MultilibMacroDefines;
 };
@@ -106,7 +122,7 @@ public:
 
 class LLVM_LIBRARY_VISIBILITY Linker final : public Tool {
 public:
-  Linker(const ToolChain &TC) : Tool("baremetal::Linker", "ld.lld", TC) {}
+  Linker(const ToolChain &TC) : Tool("baremetal::Linker", "linker", TC) {}
   bool isLinkJob() const override { return true; }
   bool hasIntegratedCPP() const override { return false; }
   void ConstructJob(Compilation &C, const JobAction &JA,
