@@ -1,0 +1,12 @@
+#ifndef LLVM_LIB_TARGET_LALA_TARGETINFO_LALATARGETINFO_H
+#define LLVM_LIB_TARGET_LALA_TARGETINFO_LALATARGETINFO_H
+
+namespace llvm {
+
+class Target;
+
+Target &getTheLalaTarget();
+
+} // end namespace llvm
+
+#endif // LLVM_LIB_TARGET_LALA_TARGETINFO_LALATARGETINFO_H
