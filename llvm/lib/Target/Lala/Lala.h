@@ -3,8 +3,9 @@
 
 #include "MCTargetDesc/LalaMCTargetDesc.h"
 #include "llvm/Support/raw_ostream.h"
+#include "llvm/Target/TargetMachine.h"
 
-#define SIM_DUMP(Color)                                 \
+#define Lala_DUMP(Color)                                 \
 {                                                       \
     llvm::errs().changeColor(Color) << "lala: "         \
     << __func__ << "\n\t\t" << __FILE__                 \
@@ -12,11 +13,19 @@
     llvm::errs().changeColor(llvm::raw_ostream::BLACK); \
 }
 
-#define Lala_DUMP_RED SIM_DUMP(llvm::raw_ostream::RED)
-#define Lala_DUMP_GREEN SIM_DUMP(llvm::raw_ostream::GREEN)
-#define Lala_DUMP_YELLOW SIM_DUMP(llvm::raw_ostream::YELLOW)
-#define Lala_DUMP_CYAN SIM_DUMP(llvm::raw_ostream::CYAN)
-#define Lala_DUMP_MAGENTA SIM_DUMP(llvm::raw_ostream::MAGENTA)
-#define Lala_DUMP_WHITE SIM_DUMP(llvm::raw_ostream::WHITE)
+#define Lala_DUMP_RED Lala_DUMP(llvm::raw_ostream::RED)
+#define Lala_DUMP_GREEN Lala_DUMP(llvm::raw_ostream::GREEN)
+#define Lala_DUMP_YELLOW Lala_DUMP(llvm::raw_ostream::YELLOW)
+#define Lala_DUMP_CYAN Lala_DUMP(llvm::raw_ostream::CYAN)
+#define Lala_DUMP_MAGENTA Lala_DUMP(llvm::raw_ostream::MAGENTA)
+#define Lala_DUMP_WHITE Lala_DUMP(llvm::raw_ostream::WHITE)
+
+namespace llvm {
+
+    class LalaTargetMachine;
+    class FunctionPass;
+    FunctionPass *createLalaISelDag(LalaTargetMachine &TM, CodeGenOptLevel OptLevel);
+
+} // namespace llvm
 
 #endif // LLVM_LIB_TARGET_LALA_LALA_H

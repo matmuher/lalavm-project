@@ -8,6 +8,7 @@ tablegen(LLVM LalaGenRegisterInfo.inc -gen-register-info)
 tablegen(LLVM LalaGenInstrInfo.inc -gen-instr-info)
 tablegen(LLVM LalaGenSubtargetInfo.inc -gen-subtarget)
 tablegen(LLVM LalaGenMCPseudoLowering.inc -gen-pseudo-lowering)
+tablegen(LLVM LalaGenDAGISel.inc -gen-dag-isel)
 
 add_public_tablegen_target(LalaCommonTableGen)
 
@@ -17,6 +18,7 @@ add_llvm_target(LalaCodeGen
   LalaInstrInfo.cpp
   LalaSubtarget.cpp
   LalaAsmPrinter.cpp
+  LalaISelDagToDag.cpp
 
   LINK_COMPONENTS
   CodeGen
@@ -25,6 +27,7 @@ add_llvm_target(LalaCodeGen
   Target
   LalaInfo
   AsmPrinter
+  SelectionDAG
 
   ADD_TO_COMPONENT
   Lala

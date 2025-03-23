@@ -34,8 +34,13 @@ public:
   LalaPassConfig(LalaTargetMachine &TM, PassManagerBase &PM)
       : TargetPassConfig(TM, PM) {}
 
+  LalaTargetMachine &getLalaTargetMachine() const {
+    return getTM<LalaTargetMachine>();
+  }
+
   bool addInstSelector() override {
     Lala_DUMP_CYAN
+    addPass(createLalaISelDag(getLalaTargetMachine(), getOptLevel()));
     return false;
   }
 };
