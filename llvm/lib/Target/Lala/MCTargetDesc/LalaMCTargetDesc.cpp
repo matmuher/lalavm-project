@@ -1,4 +1,6 @@
-#include "LalaMCTargetDesc.h"
+#include "../Lala.h"
+#include "llvm/Support/raw_ostream.h"
 
 // We need to define this function for linking succeed
-extern "C" void LLVMInitializeLalaTargetMC() {int x = 0;}
+extern "C" LLVM_EXTERNAL_VISIBILITY
+void LLVMInitializeLalaTargetMC() { SIM_DUMP_MAGENTA }
