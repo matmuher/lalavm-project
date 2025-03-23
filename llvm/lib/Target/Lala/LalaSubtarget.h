@@ -2,6 +2,7 @@
 #define LLVM_LIB_TARGET_Lala_LalaSUBTARGET_H
 
 #include "Lala.h"
+#include "LalaFrameLowering.h"
 #include "LalaISelLowering.h"
 #include "llvm/CodeGen/TargetSubtargetInfo.h"
 
@@ -12,6 +13,7 @@ namespace llvm {
 
 class LalaSubtarget : public LalaGenSubtargetInfo {
   LalaTargetLowering TLInfo;
+  LalaFrameLowering FrameLowering;
 
 public:
   LalaSubtarget(const Triple &TT, const std::string &CPU, const std::string &FS,
@@ -24,6 +26,10 @@ public:
   const LalaTargetLowering *getTargetLowering() const override {
     Lala_DUMP_CYAN
     return &TLInfo;
+  }
+  const LalaFrameLowering *getFrameLowering() const override {
+    Lala_DUMP_CYAN
+    return &FrameLowering;
   }
 };
 
