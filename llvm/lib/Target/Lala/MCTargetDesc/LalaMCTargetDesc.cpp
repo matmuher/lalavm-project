@@ -1,5 +1,6 @@
 #include "MCTargetDesc/LalaInfo.h"
 #include "Lala.h"
+#include "LalaInstPrinter.h"
 #include "LalaMCAsmInfo.h"
 #include "TargetInfo/LalaTargetInfo.h"
 #include "llvm/MC/MCDwarf.h"
@@ -51,6 +52,15 @@ static MCAsmInfo *createLalaMCAsmInfo(const MCRegisterInfo &MRI,
   return MAI;
 }
 
+static MCInstPrinter *createLalaMCInstPrinter(const Triple &T,
+                                             unsigned SyntaxVariant,
+                                             const MCAsmInfo &MAI,
+                                             const MCInstrInfo &MII,
+                                             const MCRegisterInfo &MRI) {
+  Lala_DUMP_MAGENTA
+  return new LalaInstPrinter(MAI, MII, MRI);
+}
+
 // We need to define this function for linking succeed
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeLalaTargetMC() {
   Lala_DUMP_MAGENTA
@@ -63,4 +73,7 @@ extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeLalaTargetMC() {
   // Register the MC subtarget info.
   TargetRegistry::RegisterMCSubtargetInfo(TheLalaTarget,
                                           createLalaMCSubtargetInfo);
+
+  // Register the MCInstPrinter
+  TargetRegistry::RegisterMCInstPrinter(TheLalaTarget, createLalaMCInstPrinter);
 }
