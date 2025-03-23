@@ -4,7 +4,9 @@
 #include "Lala.h"
 #include "LalaFrameLowering.h"
 #include "LalaISelLowering.h"
+#include "LalaInstrInfo.h"
 #include "LalaRegisterInfo.h"
+#include "llvm/CodeGen/SelectionDAGTargetInfo.h"
 #include "llvm/CodeGen/TargetSubtargetInfo.h"
 
 #define GET_SUBTARGETINFO_HEADER
@@ -16,6 +18,8 @@ class LalaSubtarget : public LalaGenSubtargetInfo {
   LalaTargetLowering TLInfo;
   LalaFrameLowering FrameLowering;
   LalaRegisterInfo RegInfo;
+  LalaInstrInfo InstrInfo;
+  SelectionDAGTargetInfo TSInfo;
 
 public:
   LalaSubtarget(const Triple &TT, const std::string &CPU, const std::string &FS,
@@ -36,6 +40,11 @@ public:
   const LalaRegisterInfo *getRegisterInfo() const override {
     Lala_DUMP_CYAN
     return &RegInfo;
+  }
+  const LalaInstrInfo *getInstrInfo() const override { return &InstrInfo; }
+  const SelectionDAGTargetInfo *getSelectionDAGInfo() const override {
+    Lala_DUMP_CYAN
+    return &TSInfo;
   }
 };
 
