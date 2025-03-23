@@ -10,6 +10,7 @@ tablegen(LLVM LalaGenSubtargetInfo.inc -gen-subtarget)
 tablegen(LLVM LalaGenMCPseudoLowering.inc -gen-pseudo-lowering)
 tablegen(LLVM LalaGenDAGISel.inc -gen-dag-isel)
 tablegen(LLVM LalaGenCallingConv.inc -gen-callingconv)
+tablegen(LLVM LalaGenAsmWriter.inc -gen-asm-writer)
 
 add_public_tablegen_target(LalaCommonTableGen)
 
