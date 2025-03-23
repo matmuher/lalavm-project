@@ -1,6 +1,7 @@
 #include "LalaTargetMachine.h"
 #include "Lala.h"
 #include "TargetInfo/LalaTargetInfo.h"
+#include "llvm/CodeGen/TargetPassConfig.h"
 #include "llvm/MC/TargetRegistry.h"
 #include <optional>
 
@@ -23,4 +24,25 @@ LalaTargetMachine::LalaTargetMachine(const Target &T, const Triple &TT,
           Reloc::Static, getEffectiveCodeModel(CM, CodeModel::Small), OL) {
   Lala_DUMP_CYAN
   initAsmInfo();
+}
+
+namespace {
+
+/// Lala Code Generator Pass Configuration Options.
+class LalaPassConfig : public TargetPassConfig {
+public:
+  LalaPassConfig(LalaTargetMachine &TM, PassManagerBase &PM)
+      : TargetPassConfig(TM, PM) {}
+
+  bool addInstSelector() override {
+    Lala_DUMP_CYAN
+    return false;
+  }
+};
+
+} // end anonymous namespace
+
+TargetPassConfig *LalaTargetMachine::createPassConfig(PassManagerBase &PM) {
+  Lala_DUMP_CYAN
+  return new LalaPassConfig(*this, PM);
 }
