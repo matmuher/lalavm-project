@@ -10,8 +10,8 @@ using namespace llvm;
 #define GET_SUBTARGETINFO_CTOR
 #include "LalaGenSubtargetInfo.inc"
 
-LalaSubtarget::LalaSubtarget(const StringRef &CPU, const StringRef &TuneCPU,
-                           const StringRef &FS, const TargetMachine &TM)
-    : LalaGenSubtargetInfo(TM.getTargetTriple(), CPU, TuneCPU, FS) {
+LalaSubtarget::LalaSubtarget(const Triple &TT, const std::string &CPU,
+                           const std::string &FS, const TargetMachine &TM)
+    : LalaGenSubtargetInfo(TT, CPU, /*TuneCPU=*/CPU, FS), TLInfo(TM, *this) {
   Lala_DUMP_CYAN
 }

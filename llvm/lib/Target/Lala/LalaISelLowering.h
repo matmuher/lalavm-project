@@ -10,6 +10,7 @@ namespace llvm {
 class LalaSubtarget;
 class LalaTargetMachine;
 
+// ISD - instr select dag
 namespace LalaISD {
 
 enum NodeType : unsigned {
@@ -21,6 +22,19 @@ enum NodeType : unsigned {
 };
 
 } // namespace LalaISD
+
+class LalaTargetLowering : public TargetLowering {
+public:
+  explicit LalaTargetLowering(const TargetMachine &TM, const LalaSubtarget &STI);
+
+  /// This method returns the name of a target specific DAG node.
+  const char *getTargetNodeName(unsigned Opcode) const override;
+
+  LalaSubtarget const &getSubtarget() const { return STI; }
+
+private:
+  const LalaSubtarget &STI;
+};
 
 } // end namespace llvm
 
