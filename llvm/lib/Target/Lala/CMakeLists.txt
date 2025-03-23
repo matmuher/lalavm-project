@@ -6,12 +6,15 @@ set(LLVM_TARGET_DEFINITIONS Lala.td)
 # to worl with registers
 tablegen(LLVM LalaGenRegisterInfo.inc -gen-register-info)
 tablegen(LLVM LalaGenInstrInfo.inc -gen-instr-info)
+tablegen(LLVM LalaGenSubtargetInfo.inc -gen-subtarget)
+
 add_public_tablegen_target(LalaCommonTableGen)
 
 add_llvm_target(LalaCodeGen
   LalaTargetMachine.cpp
   LalaRegisterInfo.cpp
   LalaInstrInfo.cpp
+  LalaSubtarget.cpp
 
   LINK_COMPONENTS
   CodeGen
