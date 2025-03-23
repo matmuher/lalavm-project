@@ -4,13 +4,13 @@
 using namespace llvm;
 
 Target &llvm::getTheLalaTarget() {
-  SIM_DUMP_YELLOW
+  Lala_DUMP_YELLOW
   static Target TheLalaTarget;
   return TheLalaTarget;
 }
 
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeLalaTargetInfo() {
-  SIM_DUMP_YELLOW
+  Lala_DUMP_YELLOW
   RegisterTarget<Triple::Lala> X(getTheLalaTarget(), "Lala", "Lala (edu-target), 32",
                                    "Lala");
 }
