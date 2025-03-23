@@ -5,11 +5,13 @@ set(LLVM_TARGET_DEFINITIONS Lala.td)
 # Generate C++ code from tablegen description
 # to worl with registers
 tablegen(LLVM LalaGenRegisterInfo.inc -gen-register-info)
+tablegen(LLVM LalaGenInstrInfo.inc -gen-instr-info)
 add_public_tablegen_target(LalaCommonTableGen)
 
 add_llvm_target(LalaCodeGen
   LalaTargetMachine.cpp
   LalaRegisterInfo.cpp
+  LalaInstrInfo.cpp
 
   LINK_COMPONENTS
   CodeGen
