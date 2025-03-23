@@ -7,6 +7,7 @@ set(LLVM_TARGET_DEFINITIONS Lala.td)
 tablegen(LLVM LalaGenRegisterInfo.inc -gen-register-info)
 tablegen(LLVM LalaGenInstrInfo.inc -gen-instr-info)
 tablegen(LLVM LalaGenSubtargetInfo.inc -gen-subtarget)
+tablegen(LLVM LalaGenMCPseudoLowering.inc -gen-pseudo-lowering)
 
 add_public_tablegen_target(LalaCommonTableGen)
 
@@ -15,6 +16,7 @@ add_llvm_target(LalaCodeGen
   LalaRegisterInfo.cpp
   LalaInstrInfo.cpp
   LalaSubtarget.cpp
+  LalaAsmPrinter.cpp
 
   LINK_COMPONENTS
   CodeGen
@@ -22,6 +24,7 @@ add_llvm_target(LalaCodeGen
   Support
   Target
   LalaInfo
+  AsmPrinter
 
   ADD_TO_COMPONENT
   Lala
