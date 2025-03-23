@@ -22,6 +22,7 @@ add_llvm_target(LalaCodeGen
   LalaAsmPrinter.cpp
   LalaISelDagToDag.cpp
   LalaISelLowering.cpp
+  LalaMCInstLower.cpp
 
   LINK_COMPONENTS
   CodeGen

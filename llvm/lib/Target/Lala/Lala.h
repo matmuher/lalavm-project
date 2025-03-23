@@ -1,17 +1,17 @@
-#ifndef LLVM_LIB_TARGET_LALA_LALA_H
-#define LLVM_LIB_TARGET_LALA_LALA_H
+#ifndef LLVM_LIB_TARGET_Lala_Lala_H
+#define LLVM_LIB_TARGET_Lala_Lala_H
 
 #include "MCTargetDesc/LalaMCTargetDesc.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Target/TargetMachine.h"
 
-#define Lala_DUMP(Color)                                 \
-{                                                       \
-    llvm::errs().changeColor(Color) << "lala: "         \
-    << __func__ << "\n\t\t" << __FILE__                 \
-    << ":" << __LINE__ << "\n";                         \
-    llvm::errs().changeColor(llvm::raw_ostream::BLACK); \
-}
+#define Lala_DUMP(Color)                                                        \
+  {                                                                            \
+    llvm::errs().changeColor(Color)                                            \
+        << __func__ << "\n\t\t" << __FILE__ << ":" << __LINE__ << "\n";        \
+    llvm::errs().changeColor(llvm::raw_ostream::WHITE);                        \
+  }
+// #define Lala_DUMP(Color) {}
 
 #define Lala_DUMP_RED Lala_DUMP(llvm::raw_ostream::RED)
 #define Lala_DUMP_GREEN Lala_DUMP(llvm::raw_ostream::GREEN)
@@ -19,13 +19,24 @@
 #define Lala_DUMP_CYAN Lala_DUMP(llvm::raw_ostream::CYAN)
 #define Lala_DUMP_MAGENTA Lala_DUMP(llvm::raw_ostream::MAGENTA)
 #define Lala_DUMP_WHITE Lala_DUMP(llvm::raw_ostream::WHITE)
-
 namespace llvm {
+class LalaTargetMachine;
+class FunctionPass;
+class LalaSubtarget;
+class AsmPrinter;
+class InstructionSelector;
+class MCInst;
+class MCOperand;
+class MachineInstr;
+class MachineOperand;
+class PassRegistry;
 
-    class LalaTargetMachine;
-    class FunctionPass;
-    FunctionPass *createLalaISelDag(LalaTargetMachine &TM, CodeGenOptLevel OptLevel);
+bool lowerLalaMachineInstrToMCInst(const MachineInstr *MI, MCInst &OutMI,
+                                  AsmPrinter &AP);
+bool LowerLalaMachineOperandToMCOperand(const MachineOperand &MO,
+                                       MCOperand &MCOp, const AsmPrinter &AP);
+FunctionPass *createLalaISelDag(LalaTargetMachine &TM, CodeGenOptLevel OptLevel);
 
 } // namespace llvm
 
-#endif // LLVM_LIB_TARGET_LALA_LALA_H
+#endif // LLVM_LIB_TARGET_Lala_Lala_H

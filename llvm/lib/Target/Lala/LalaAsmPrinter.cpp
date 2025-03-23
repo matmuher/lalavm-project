@@ -38,11 +38,16 @@ public:
   StringRef getPassName() const override { return "Lala Assembly Printer"; }
 
   bool lowerPseudoInstExpansion(const MachineInstr *MI, MCInst &Inst);
+
+  // Used in pseudo lowerings
+  bool lowerOperand(const MachineOperand &MO, MCOperand &MCOp) const {
+    return LowerLalaMachineOperandToMCOperand(MO, MCOp, *this);
+  }
 };
 
 } // end anonymous namespace
 
-// Simple pseudo-instructions have their lowering (with expansion to real
+// Lalaple pseudo-instructions have their lowering (with expansion to real
 // instructions) auto-generated.
 #include "LalaGenMCPseudoLowering.inc"
 
@@ -53,6 +58,10 @@ void LalaAsmPrinter::emitInstruction(const MachineInstr *MI) {
     EmitToStreamer(*OutStreamer, OutInst);
     return;
   }
+
+  MCInst TmpInst;
+  if (!lowerLalaMachineInstrToMCInst(MI, TmpInst, *this))
+    EmitToStreamer(*OutStreamer, TmpInst);
 }
 
 // Force static initialization.
