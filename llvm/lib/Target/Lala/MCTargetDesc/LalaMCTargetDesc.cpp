@@ -1,10 +1,13 @@
 #include "MCTargetDesc/LalaInfo.h"
 #include "Lala.h"
+#include "LalaMCAsmInfo.h"
 #include "TargetInfo/LalaTargetInfo.h"
+#include "llvm/MC/MCDwarf.h"
 #include "llvm/MC/MCInstrInfo.h"
 #include "llvm/MC/MCRegisterInfo.h"
 #include "llvm/MC/MCSubtargetInfo.h"
 #include "llvm/MC/TargetRegistry.h"
+#include "llvm/Support/ErrorHandling.h"
 
 using namespace llvm;
 
@@ -37,10 +40,22 @@ static MCSubtargetInfo *createLalaMCSubtargetInfo(const Triple &TT,
   return createLalaMCSubtargetInfoImpl(TT, CPU, /*TuneCPU*/ CPU, FS);
 }
 
+static MCAsmInfo *createLalaMCAsmInfo(const MCRegisterInfo &MRI,
+                                     const Triple &TT,
+                                     const MCTargetOptions &Options) {
+  Lala_DUMP_MAGENTA
+  MCAsmInfo *MAI = new LalaELFMCAsmInfo(TT);
+  unsigned SP = MRI.getDwarfRegNum(Lala::R1, true);
+  MCCFIInstruction Inst = MCCFIInstruction::cfiDefCfa(nullptr, SP, 0);
+  MAI->addInitialFrameState(Inst);
+  return MAI;
+}
+
 // We need to define this function for linking succeed
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeLalaTargetMC() {
   Lala_DUMP_MAGENTA
   Target &TheLalaTarget = getTheLalaTarget();
+  RegisterMCAsmInfoFn X(TheLalaTarget, createLalaMCAsmInfo);
   // Register the MC register info.
   TargetRegistry::RegisterMCRegInfo(TheLalaTarget, createLalaMCRegisterInfo);
   // Register the MC instruction info.
